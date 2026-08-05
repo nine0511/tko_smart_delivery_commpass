@@ -369,52 +369,84 @@ function LineFeatureCard({
   );
 }
 
-function ScenarioCard({
+function FlowArrow({ tone }: { tone: "orange" | "cyan" }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`flex h-11 items-center justify-center ${
+        tone === "orange" ? "text-orange-300" : "text-cyan-300"
+      }`}
+    >
+      <svg
+        className="h-10 w-8 drop-shadow-[0_0_14px_rgba(255,255,255,0.12)]"
+        viewBox="0 0 48 64"
+        fill="none"
+      >
+        <path d="M18 2H30V36H43L24 62L5 36H18V2Z" fill="currentColor" />
+      </svg>
+    </div>
+  );
+}
+
+function CompareStep({
   tone,
+  number,
   label,
   title,
-  description,
-  children,
+  text,
+  emphasis = false,
 }: {
-  tone: "cyan" | "orange";
+  tone: "orange" | "cyan";
+  number: string;
   label: string;
   title: string;
-  description: string;
-  children: ReactNode;
+  text: string;
+  emphasis?: boolean;
 }) {
-  const cyan = tone === "cyan";
+  const orange = tone === "orange";
+
+  const cardClass = emphasis
+    ? "border-cyan-200/35 bg-cyan-300/[0.14] shadow-[0_18px_55px_rgba(34,211,238,0.08)]"
+    : orange
+      ? "border-orange-200/15 bg-black/15"
+      : "border-white/10 bg-white/[0.055]";
 
   return (
-    <article
-      className={`relative overflow-hidden rounded-[36px] border p-7 backdrop-blur sm:p-9 ${
-        cyan
-          ? "border-cyan-200/20 bg-cyan-300/[0.07]"
-          : "border-orange-200/20 bg-orange-300/[0.07]"
-      }`}
-      data-reveal
-    >
-      <div
-        className={`absolute -right-20 -top-20 size-56 rounded-full blur-3xl ${
-          cyan ? "bg-cyan-300/10" : "bg-orange-300/10"
-        }`}
-      />
-
-      <div className="relative">
+    <div className={`w-full rounded-[24px] border p-4 sm:p-5 ${cardClass}`}>
+      <div className="flex items-start gap-4">
         <span
-          className={`inline-flex rounded-full px-4 py-2 text-[10px] font-black tracking-[0.14em] ${
-            cyan
-              ? "bg-cyan-300/15 text-cyan-200"
-              : "bg-orange-300/15 text-orange-200"
+          className={`flex size-11 shrink-0 items-center justify-center rounded-2xl text-xs font-black ${
+            orange
+              ? "bg-orange-400 text-orange-950"
+              : "bg-cyan-300 text-[#071a33]"
           }`}
         >
-          {label}
+          {number}
         </span>
 
-        <h3 className="mt-6 text-2xl font-black sm:text-3xl">{title}</h3>
-        <p className="mt-4 max-w-xl leading-8 text-slate-300">{description}</p>
-        {children}
+        <div className="min-w-0">
+          <p
+            className={`text-[9px] font-black tracking-[0.18em] ${
+              orange ? "text-orange-300" : "text-cyan-300"
+            }`}
+          >
+            {label}
+          </p>
+
+          <h4
+            className={`mt-1.5 text-lg font-black leading-snug ${
+              emphasis ? "text-cyan-100" : "text-white"
+            }`}
+          >
+            {title}
+          </h4>
+
+          <p className="mt-2 text-xs leading-6 text-slate-400 sm:text-sm">
+            {text}
+          </p>
+        </div>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -522,10 +554,12 @@ export default function Home() {
               </p>
 
               <h2 className="mt-4 text-[clamp(2.7rem,6vw,5.5rem)] font-black leading-[1.02] tracking-[-0.055em] text-[#172033]">
-                受取人の変更が、
+                予定変更が、
                 <br />
                 <span className="relative inline-block text-orange-600">
-                  配送計画に届かない。
+                  配送計画に
+                  <br />
+                  届かない。
                   <span className="absolute bottom-0 left-0 h-3 w-full -rotate-1 bg-orange-300/35" />
                 </span>
               </h2>
@@ -565,12 +599,12 @@ export default function Home() {
               </div>
 
               <p className="text-2xl font-black leading-relaxed sm:text-4xl lg:text-5xl">
-                予定変更を、
+                予定変更を
                 <br className="sm:hidden" />
                 単なる連絡で終わらせず、
                 <br />
                 <span className="text-cyan-300">
-                  次の配送計画に活用できないか。
+                  次の配送計画に活用できないか?
                 </span>
               </p>
             </div>
@@ -612,11 +646,6 @@ export default function Home() {
                     index={index}
                   />
                 ))}
-              </div>
-
-              <div className="mt-7 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-[10px] font-black text-emerald-800">
-                <span className="size-2 rounded-full bg-emerald-500" />
-                LINE連携モックで動作確認
               </div>
             </div>
 
@@ -682,128 +711,230 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 04 LOGIC */}
+      {/* 04 CORE VALUE */}
+      {/* 04 CORE VALUE */}
       <section
         id="section-4"
         className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#071a33] px-5 py-24 text-white sm:px-8 lg:py-28"
       >
         <div aria-hidden="true" className="absolute inset-0">
           <div className="hero-grid absolute inset-0 opacity-[0.055]" />
+
           <div className="absolute left-1/2 top-1/2 size-[740px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/15 blur-3xl" />
+
+          <div className="absolute -left-28 top-24 size-80 rounded-full bg-cyan-300/10 blur-3xl" />
+
+          <div className="absolute -right-28 bottom-20 size-80 rounded-full bg-orange-300/10 blur-3xl" />
+
+          <p className="absolute -right-8 top-1/2 -translate-y-1/2 rotate-90 text-[110px] font-black tracking-[-0.08em] text-white/[0.025] sm:text-[170px]">
+            REDELIVERY
+          </p>
         </div>
 
         <div className="relative mx-auto w-full max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
             <div data-reveal>
               <SectionTag number="04" dark>
-                ROUTE ADJUSTMENT
+                SAME-SLOT REDELIVERY
               </SectionTag>
 
-              <h2 className="mt-8 text-[clamp(2.8rem,6vw,5.7rem)] font-black leading-[1.02] tracking-[-0.055em]">
-                変更の種類で、
+              <p className="mt-9 text-xs font-black tracking-[0.18em] text-orange-300">
+                このサービスで解決したい体験
+              </p>
+
+              <h2 className="mt-4 max-w-5xl text-[clamp(2.8rem,6vw,5.7rem)] font-black leading-[1.02] tracking-[-0.055em]">
+                短い不在を、
                 <br />
-                <span className="text-cyan-300">計算のしかたを変える。</span>
+                <span className="text-cyan-300">再配達にしない。</span>
               </h2>
             </div>
 
-            <p
-              className="max-w-md text-sm leading-7 text-slate-400 lg:pb-2"
+            <div
+              className="rounded-[28px] border border-white/10 bg-white/[0.055] p-6 backdrop-blur"
               data-reveal
             >
-              すべての変更で配送順を組み直すのではなく、
-              必要な場合だけ残りの順番を再計算します。
-            </p>
-          </div>
+              <p className="text-[10px] font-black tracking-[0.2em] text-orange-300">
+                THE STARTING POINT
+              </p>
 
-          <div className="relative mt-12 grid gap-5 lg:grid-cols-2">
-            <ScenarioCard
-              tone="cyan"
-              label="CASE 01 / 受取方法の変更"
-              title="配送順はそのまま"
-              description="対面受取から置き配への変更では、配送順を固定したまま、短縮された滞在時間を後続地点の到着予定へ反映します。"
-            >
-              <div className="mt-8 rounded-[28px] border border-white/10 bg-black/15 p-5 sm:p-6">
-                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-center">
-                  <div>
-                    <p className="text-[10px] font-black text-slate-400">
-                      対面受取
-                    </p>
-                    <p className="mt-2 text-3xl font-black">300秒</p>
-                  </div>
+              <p className="mt-4 text-xl font-black leading-relaxed sm:text-2xl">
+                5分ほどの急用で家を離れた間に配達が来て、再配達になってしまった。
+              </p>
 
-                  <div className="flex flex-col items-center">
-                    <span className="text-2xl text-cyan-300">→</span>
-                    <span className="mt-1 text-[9px] font-black text-cyan-200">
-                      METHOD CHANGE
-                    </span>
-                  </div>
-
-                  <div>
-                    <p className="text-[10px] font-black text-cyan-200">
-                      置き配
-                    </p>
-                    <p className="mt-2 text-3xl font-black text-cyan-300">
-                      10秒
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-5 rounded-2xl bg-cyan-300/10 px-4 py-3 text-center text-xs font-black text-cyan-200">
-                  配送順を変えず、後続ETAのみ再計算
-                </div>
-              </div>
-            </ScenarioCard>
-
-            <ScenarioCard
-              tone="orange"
-              label="CASE 02 / 不在・時間帯変更"
-              title="残りの配送順を再計算"
-              description="不在予定や配送日の変更では、在宅予定と配送時間枠を守れるように、残りの配送順と到着予定を再計算します。"
-            >
-              <div className="mt-8 space-y-3">
-                {[
-                  ["戻り予定", "受取人があと何分で戻るか"],
-                  ["配送枠", "配送会社ごとの時間帯"],
-                  ["移動時間", "現在地から各配送地点まで"],
-                ].map(([title, text], index) => (
-                  <div
-                    className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4"
-                    key={title}
-                  >
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-orange-400 text-xs font-black text-orange-950">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <p className="text-sm font-black">{title}</p>
-                      <p className="mt-1 text-xs text-slate-400">{text}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ScenarioCard>
-
-            <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-px w-20 -translate-x-1/2 -translate-y-1/2 lg:block">
-              <span className="absolute inset-0 border-t-2 border-dashed border-white/20" />
-              <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-cyan-300 text-[10px] font-black text-[#071a33]">
-                +
-              </span>
+              <p className="mt-4 text-sm leading-7 text-slate-400">
+                この短いすれ違いを減らすことが、スマート配送コンパスの出発点です。
+              </p>
             </div>
           </div>
 
+          <div className="relative mt-12 grid gap-5 lg:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] lg:items-stretch">
+            {/* BEFORE */}
+            <article
+              className="relative flex h-full flex-col overflow-hidden rounded-[36px] border border-orange-200/20 bg-orange-300/[0.07] p-6 backdrop-blur sm:p-8"
+              data-reveal
+            >
+              <div className="absolute -right-12 -top-14 size-48 rounded-full bg-orange-300/10 blur-2xl" />
+
+              <div className="relative flex h-full flex-col">
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] font-black tracking-[0.22em] text-orange-300">
+                        BEFORE
+                      </p>
+
+                      <h3 className="mt-3 text-2xl font-black sm:text-3xl">
+                        これまでの短時間不在
+                      </h3>
+                    </div>
+
+                    <span className="flex size-14 shrink-0 items-center justify-center rounded-full border border-orange-200/20 bg-orange-300/10 text-2xl font-black text-orange-300">
+                      ×
+                    </span>
+                  </div>
+
+                  <p className="mt-4 max-w-xl text-sm leading-7 text-slate-400">
+                    短い不在でも、受取人の状況が配送側へ伝わらず、そのまま再配達になってしまいます。
+                  </p>
+                </div>
+
+                <div className="mt-7 flex flex-1 flex-col justify-center">
+                  <CompareStep
+                    tone="orange"
+                    number="01"
+                    label="ARRIVAL"
+                    title="訪問してから不在を知る"
+                    text="ドライバーが配送先へ到着した後に、受取人が不在であることが分かります。"
+                  />
+
+                  <FlowArrow tone="orange" />
+
+                  <CompareStep
+                    tone="orange"
+                    number="02"
+                    label="NO INFORMATION"
+                    title="戻る時刻を把握できない"
+                    text="受取人が数分後に戻る場合でも、配送側はその予定を判断材料にできません。"
+                  />
+
+                  <FlowArrow tone="orange" />
+
+                  <CompareStep
+                    tone="orange"
+                    number="03"
+                    label="REDELIVERY"
+                    title="そのまま再配達になる"
+                    text="ほんの短いすれ違いでも、後の時間や別の日にもう一度訪問する必要があります。"
+                  />
+                </div>
+              </div>
+            </article>
+
+            {/* 中央 */}
+            <div className="flex items-center justify-center py-1 lg:py-0">
+              <div className="flex items-center gap-3 lg:flex-col">
+                <span className="flex size-14 items-center justify-center rounded-full border border-white/15 bg-white/[0.07] text-sm font-black tracking-[0.08em] text-white shadow-xl backdrop-blur"></span>
+
+                <svg
+                  aria-hidden="true"
+                  className="h-10 w-14 rotate-90 text-white/25 lg:rotate-0"
+                  viewBox="0 0 64 48"
+                  fill="none"
+                >
+                  <path
+                    d="M2 18H36V5L62 24L36 43V30H2V18Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            {/* AFTER */}
+            <article
+              className="relative flex h-full flex-col overflow-hidden rounded-[36px] border border-cyan-200/25 bg-gradient-to-br from-cyan-300/[0.12] via-white/[0.045] to-blue-500/[0.08] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.18)] backdrop-blur sm:p-8"
+              data-reveal
+              style={{ transitionDelay: "120ms" }}
+            >
+              <div className="absolute -right-14 -top-20 size-64 rounded-full border-[40px] border-cyan-300/[0.07]" />
+
+              <div className="relative flex h-full flex-col">
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] font-black tracking-[0.22em] text-cyan-300">
+                        AFTER
+                      </p>
+
+                      <h3 className="mt-3 text-2xl font-black sm:text-3xl">
+                        スマート配送コンパス
+                      </h3>
+                    </div>
+
+                    <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-2xl font-black text-[#071a33] shadow-[0_0_30px_rgba(103,232,249,0.2)]">
+                      ✓
+                    </span>
+                  </div>
+
+                  <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300">
+                    LINEから得た不在情報を配送判断に使い、条件を満たす場合は同じ時間枠での再訪につなげます。
+                  </p>
+                </div>
+
+                <div className="mt-7 flex flex-1 flex-col justify-center">
+                  <CompareStep
+                    tone="cyan"
+                    number="01"
+                    label="SHORT ABSENCE"
+                    title="短い不在が発生"
+                    text="急用などで、数分から十数分だけ荷物を受け取れない状況が発生します。"
+                  />
+
+                  <FlowArrow tone="cyan" />
+
+                  <CompareStep
+                    tone="cyan"
+                    number="02"
+                    label="LINE MESSAGE"
+                    title="LINEから不在予定を連絡"
+                    text="受取人が「10分不在」や「30分不在」をLINEから配送側へ伝えます。"
+                  />
+
+                  <FlowArrow tone="cyan" />
+
+                  <CompareStep
+                    tone="cyan"
+                    number="03"
+                    label="RECALCULATION"
+                    title="残りの配送順を再計算"
+                    text="戻り予定、現在地、残りの配送先、配送時間枠をもとに再訪可能か計算します。"
+                  />
+
+                  <FlowArrow tone="cyan" />
+
+                  <CompareStep
+                    tone="cyan"
+                    number="04"
+                    label="SAME TIME SLOT"
+                    title="同じ時間枠で再訪"
+                    text="時間枠に収まる場合は、残りの配送順へ再訪を組み込みます。"
+                    emphasis
+                  />
+                </div>
+              </div>
+            </article>
+          </div>
+
           <div
-            className="mt-10 grid gap-8 border-t border-white/10 pt-9 lg:grid-cols-[1.2fr_0.8fr] lg:items-end"
+            className="mt-9 grid gap-8 border-t border-white/10 pt-9 lg:grid-cols-[1.2fr_0.8fr] lg:items-end"
             data-reveal
           >
             <div>
               <p className="text-[10px] font-black tracking-[0.22em] text-cyan-300">
-                OUR GOAL
+                CORE VALUE
               </p>
-              <p className="mt-4 text-2xl font-black leading-relaxed sm:text-4xl">
-                予定変更を配送計画へ取り込み、
-                <br />
-                <span className="text-cyan-300">
-                  不在や再訪の発生を抑えることを目指す。
-                </span>
+
+              <p className="mt-4 max-w-4xl text-2xl font-black leading-relaxed sm:text-4xl">
+                数分のすれ違いを、大きな再配達にしないことを目指します。
               </p>
             </div>
 
@@ -811,6 +942,7 @@ export default function Home() {
               <p className="text-[9px] font-black tracking-[0.16em] text-slate-500">
                 PROTOTYPE TECHNOLOGIES
               </p>
+
               <div className="mt-3 flex flex-wrap gap-2">
                 {technologies.map((technology) => (
                   <span
@@ -823,9 +955,7 @@ export default function Home() {
               </div>
 
               <p className="mt-4 text-[9px] leading-5 text-slate-500">
-                配送会社システム、ドライバー認証、Amazon Location
-                Serviceには接続していない動作確認モックです。地図表示にはMapLibre
-                GLとOpenStreetMap、経路計算にはOSRMの公開デモサービスを使用しています。
+                同じ時間枠での再訪は、受取人の戻り予定、配送時間枠、現在地、残りの配送先をもとに、条件に収まる場合に残りの配送順へ組み込む動作確認モックです。
               </p>
             </div>
           </div>
@@ -834,10 +964,11 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-black/10 px-5 py-4 sm:px-8">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-5">
             <WordMark />
+
             <p className="text-right text-[9px] font-black tracking-[0.16em] text-slate-500">
-              CHANGE THE PLAN,
+              SHORT ABSENCE,
               <br className="sm:hidden" />
-              NOT THE PROMISE.
+              SMART REDELIVERY.
             </p>
           </div>
         </div>
