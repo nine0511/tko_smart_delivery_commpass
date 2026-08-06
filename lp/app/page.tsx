@@ -104,8 +104,9 @@ function SectionTag({
 }) {
   return (
     <div
-      className={`flex items-center gap-3 text-[11px] font-black tracking-[0.24em] ${dark ? "text-cyan-200" : "text-blue-700"
-        }`}
+      className={`flex items-center gap-3 text-[11px] font-black tracking-[0.24em] ${
+        dark ? "text-cyan-200" : "text-blue-700"
+      }`}
     >
       <span
         className={`h-px w-10 ${dark ? "bg-cyan-300/60" : "bg-blue-600/40"}`}
@@ -149,12 +150,13 @@ function WordMark() {
   );
 }
 
-const items = [
-  ["01", "CONCEPT"],
-  ["02", "PROBLEM"],
-  ["03", "FEATURE"],
-  ["04", "REDELIVERY"],
-];
+function SideNavigation() {
+  const items = [
+    ["01", "CONCEPT"],
+    ["02", "PROBLEM"],
+    ["03", "FEATURE"],
+    ["04", "REDELIVERY"],
+  ];
 
   return (
     <nav
@@ -371,8 +373,9 @@ function FlowArrow({ tone }: { tone: "orange" | "cyan" }) {
   return (
     <div
       aria-hidden="true"
-      className={`flex h-11 items-center justify-center ${tone === "orange" ? "text-orange-300" : "text-cyan-300"
-        }`}
+      className={`flex h-11 items-center justify-center ${
+        tone === "orange" ? "text-orange-300" : "text-cyan-300"
+      }`}
     >
       <svg
         className="h-10 w-8 drop-shadow-[0_0_14px_rgba(255,255,255,0.12)]"
@@ -412,25 +415,28 @@ function CompareStep({
     <div className={`w-full rounded-[24px] border p-4 sm:p-5 ${cardClass}`}>
       <div className="flex items-start gap-4">
         <span
-          className={`flex size-11 shrink-0 items-center justify-center rounded-2xl text-xs font-black ${orange
-            ? "bg-orange-400 text-orange-950"
-            : "bg-cyan-300 text-[#071a33]"
-            }`}
+          className={`flex size-11 shrink-0 items-center justify-center rounded-2xl text-xs font-black ${
+            orange
+              ? "bg-orange-400 text-orange-950"
+              : "bg-cyan-300 text-[#071a33]"
+          }`}
         >
           {number}
         </span>
 
         <div className="min-w-0">
           <p
-            className={`text-[9px] font-black tracking-[0.18em] ${orange ? "text-orange-300" : "text-cyan-300"
-              }`}
+            className={`text-[9px] font-black tracking-[0.18em] ${
+              orange ? "text-orange-300" : "text-cyan-300"
+            }`}
           >
             {label}
           </p>
 
           <h4
-            className={`mt-1.5 text-lg font-black leading-snug ${emphasis ? "text-cyan-100" : "text-white"
-              }`}
+            className={`mt-1.5 text-lg font-black leading-snug ${
+              emphasis ? "text-cyan-100" : "text-white"
+            }`}
           >
             {title}
           </h4>
@@ -550,12 +556,10 @@ export default function Home() {
               <h2 className="mt-4 text-[clamp(2.7rem,6vw,5.5rem)] font-black leading-[1.02] tracking-[-0.055em] text-[#172033]">
                 予定変更が、
                 <br />
-
                 <span className="relative inline-block text-orange-600">
                   配送計画に
                   <br className="sm:hidden" />
                   届かない。
-
                   <span className="absolute bottom-0 left-0 h-3 w-full -rotate-1 bg-orange-300/35" />
                 </span>
               </h2>
