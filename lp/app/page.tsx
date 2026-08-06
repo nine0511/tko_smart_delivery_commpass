@@ -104,9 +104,8 @@ function SectionTag({
 }) {
   return (
     <div
-      className={`flex items-center gap-3 text-[11px] font-black tracking-[0.24em] ${
-        dark ? "text-cyan-200" : "text-blue-700"
-      }`}
+      className={`flex items-center gap-3 text-[11px] font-black tracking-[0.24em] ${dark ? "text-cyan-200" : "text-blue-700"
+        }`}
     >
       <span
         className={`h-px w-10 ${dark ? "bg-cyan-300/60" : "bg-blue-600/40"}`}
@@ -150,13 +149,12 @@ function WordMark() {
   );
 }
 
-function SideNavigation() {
-  const items = [
-    ["01", "CONCEPT"],
-    ["02", "PROBLEM"],
-    ["03", "FEATURE"],
-    ["04", "LOGIC"],
-  ];
+const items = [
+  ["01", "CONCEPT"],
+  ["02", "PROBLEM"],
+  ["03", "FEATURE"],
+  ["04", "REDELIVERY"],
+];
 
   return (
     <nav
@@ -373,9 +371,8 @@ function FlowArrow({ tone }: { tone: "orange" | "cyan" }) {
   return (
     <div
       aria-hidden="true"
-      className={`flex h-11 items-center justify-center ${
-        tone === "orange" ? "text-orange-300" : "text-cyan-300"
-      }`}
+      className={`flex h-11 items-center justify-center ${tone === "orange" ? "text-orange-300" : "text-cyan-300"
+        }`}
     >
       <svg
         className="h-10 w-8 drop-shadow-[0_0_14px_rgba(255,255,255,0.12)]"
@@ -415,28 +412,25 @@ function CompareStep({
     <div className={`w-full rounded-[24px] border p-4 sm:p-5 ${cardClass}`}>
       <div className="flex items-start gap-4">
         <span
-          className={`flex size-11 shrink-0 items-center justify-center rounded-2xl text-xs font-black ${
-            orange
-              ? "bg-orange-400 text-orange-950"
-              : "bg-cyan-300 text-[#071a33]"
-          }`}
+          className={`flex size-11 shrink-0 items-center justify-center rounded-2xl text-xs font-black ${orange
+            ? "bg-orange-400 text-orange-950"
+            : "bg-cyan-300 text-[#071a33]"
+            }`}
         >
           {number}
         </span>
 
         <div className="min-w-0">
           <p
-            className={`text-[9px] font-black tracking-[0.18em] ${
-              orange ? "text-orange-300" : "text-cyan-300"
-            }`}
+            className={`text-[9px] font-black tracking-[0.18em] ${orange ? "text-orange-300" : "text-cyan-300"
+              }`}
           >
             {label}
           </p>
 
           <h4
-            className={`mt-1.5 text-lg font-black leading-snug ${
-              emphasis ? "text-cyan-100" : "text-white"
-            }`}
+            className={`mt-1.5 text-lg font-black leading-snug ${emphasis ? "text-cyan-100" : "text-white"
+              }`}
           >
             {title}
           </h4>
@@ -556,10 +550,12 @@ export default function Home() {
               <h2 className="mt-4 text-[clamp(2.7rem,6vw,5.5rem)] font-black leading-[1.02] tracking-[-0.055em] text-[#172033]">
                 予定変更が、
                 <br />
+
                 <span className="relative inline-block text-orange-600">
                   配送計画に
-                  <br />
+                  <br className="sm:hidden" />
                   届かない。
+
                   <span className="absolute bottom-0 left-0 h-3 w-full -rotate-1 bg-orange-300/35" />
                 </span>
               </h2>
@@ -679,10 +675,14 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="absolute left-[8%] top-[58%] z-30 rounded-[26px] border border-blue-100 bg-white p-5 shadow-[0_20px_70px_rgba(18,64,118,0.16)] sm:left-[2%] sm:w-[280px]">
+              <div
+                className="absolute left-[4%] top-[58%] z-30 w-[250px] max-w-[82vw] rounded-[26px] border border-blue-100 bg-white p-5 shadow-[0_20px_70px_rgba(18,64,118,0.16)] sm:left-[2%] sm:w-[280px]"
+                data-reveal
+              >
                 <p className="text-[9px] font-black tracking-[0.2em] text-blue-600">
                   RECIPIENT → DRIVER
                 </p>
+
                 <p className="mt-3 text-lg font-black leading-snug">
                   受取人の一言を、
                   <br />
@@ -690,9 +690,10 @@ export default function Home() {
                 </p>
 
                 <div className="mt-4 flex items-center gap-3">
-                  <span className="flex size-10 items-center justify-center rounded-2xl bg-cyan-300 font-black">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-cyan-300 font-black">
                     ✓
                   </span>
+
                   <p className="text-xs font-bold leading-5 text-slate-600">
                     Supabase Realtimeを通じて
                     <br />
@@ -882,42 +883,41 @@ export default function Home() {
 
                 <div className="mt-7 flex flex-1 flex-col justify-center">
                   <CompareStep
-                    tone="cyan"
+                    tone="orange"
                     number="01"
                     label="SHORT ABSENCE"
                     title="短い不在が発生"
                     text="急用などで、数分から十数分だけ荷物を受け取れない状況が発生します。"
                   />
 
-                  <FlowArrow tone="cyan" />
+                  <FlowArrow tone="orange" />
 
                   <CompareStep
-                    tone="cyan"
+                    tone="orange"
                     number="02"
-                    label="LINE MESSAGE"
-                    title="LINEから不在予定を連絡"
-                    text="受取人が「10分不在」や「30分不在」をLINEから配送側へ伝えます。"
+                    label="ARRIVAL"
+                    title="訪問してから不在を知る"
+                    text="ドライバーが配送先へ到着した後に、受取人が不在であることが分かります。"
                   />
 
-                  <FlowArrow tone="cyan" />
+                  <FlowArrow tone="orange" />
 
                   <CompareStep
-                    tone="cyan"
+                    tone="orange"
                     number="03"
-                    label="RECALCULATION"
-                    title="残りの配送順を再計算"
-                    text="戻り予定、現在地、残りの配送先、配送時間枠をもとに再訪可能か計算します。"
+                    label="NO INFORMATION"
+                    title="戻る時刻を把握できない"
+                    text="受取人が数分後に戻る場合でも、配送側はその予定を判断材料にできません。"
                   />
 
-                  <FlowArrow tone="cyan" />
+                  <FlowArrow tone="orange" />
 
                   <CompareStep
-                    tone="cyan"
+                    tone="orange"
                     number="04"
-                    label="SAME TIME SLOT"
-                    title="同じ時間枠で再訪"
-                    text="時間枠に収まる場合は、残りの配送順へ再訪を組み込みます。"
-                    emphasis
+                    label="REDELIVERY"
+                    title="そのまま再配達になる"
+                    text="ほんの短いすれ違いでも、後の時間や別の日にもう一度訪問する必要があります。"
                   />
                 </div>
               </div>
